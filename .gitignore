@@ -1,0 +1,6 @@
+.idea
+/z.py
+/z.ipynb
+# Ignore filetypes
+*.xls
+
