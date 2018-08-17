@@ -5,6 +5,7 @@ z.ipynb
 
 # Ignore filetypes
 *.xls
+*.xlsx
 
 ###Python###
 
