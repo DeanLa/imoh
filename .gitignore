@@ -3,9 +3,11 @@
 z.py
 z.ipynb
 
-# Ignore filetypes
+# Ignore data filetypes
 *.xls
 *.xlsx
+*.csv
+*.pickle
 
 ###Python###
 
