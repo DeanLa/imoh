@@ -10,4 +10,4 @@ if __name__ == '__main__':
     data[['year', 'week', 'Disease', 'Afula', 'Akko', 'Ashqelon', 'Beer Sheva',
        'HaSharon', 'Hadera', 'Haifa', 'Jerusalem', 'Kinneret', 'Nazareth',
        'Petach Tiqwa', 'Ramla', 'Rehovot', 'Tel Aviv', 'Zefat', 'IDF', 'Total',
-       'CumTotal']].to_pickle('./data/data.pickle')
+       'SumTotal']].to_pickle('./data/data.pickle')
