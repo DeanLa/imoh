@@ -40,7 +40,7 @@ def process_file(file_path):
 
 def clean_data(df):
     ordered = ['year', 'week', 'Disease', 'Afula', 'Akko', 'Ashqelon', 'Beer Sheva',
-               'HaSharon', 'Hadera', 'Haifa', 'Jerusalem', 'Kinneret', 'Nazareth',
+               'Ha\'Sharon', 'Hadera', 'Haifa', 'Jerusalem', 'Kinneret', 'Nazareth',
                'Petach Tiqwa', 'Ramla', 'Rehovot', 'Tel Aviv', 'Zefat', 'IDF', 'Total',
                'SumTotal']
     numeric = ordered[3:]

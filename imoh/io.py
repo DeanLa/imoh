@@ -40,10 +40,13 @@ def _download_file(url, path):
     code = req.status_code
     if code == 200:
         _save_excel(req, path)
+        return True
     elif code == 404:
         logger.debug('{} not found'.format(url))
+        return False
     else:
         logger.debug('{} returned with status code {}'.format(url, code))
+        return False
 
     return req
 
@@ -63,7 +66,8 @@ def download_single_report(path, week, year):
     for i, url in enumerate(options):
         time.sleep(0.1)
         try:
-            _download_file(url, path)
+            if _download_file(url, path):
+                return
             if i == len(options) - 1:
                 logger.warning("{year}_{week:02d} FAILED\n".format(week=week, year=year))
         except Exception as e:
