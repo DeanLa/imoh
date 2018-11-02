@@ -89,3 +89,11 @@ def download_reports(years=_years, weeks=_weeks, save_folder=None, force_downloa
             download_single_report(path, week, year)
 
 
+def refresh_reports(year=None, week=None, weeks_back=15, save_folder=None):
+    t = datetime.utcnow()
+    # if year == 'current':
+    year = year or t.year # TODO: Get this dynamically
+    year = range(year, year+1)
+    this_week = week or t.isocalendar()[1] # TODO: Get this dynamically
+    week_range = range(this_week - weeks_back, this_week + 1)
+    download_reports(year, week_range, save_folder, force_download=True)
