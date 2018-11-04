@@ -6,7 +6,7 @@ import xlrd
 
 import logging
 logger = logging.getLogger(__file__)
-
+from .config import FIRST_DAY_OF_YEAR
 
 def _remove_bad_lines(df, week=0):
     ret = df.copy()
@@ -35,6 +35,8 @@ def process_file(file_path):
     df = _remove_bad_lines(df, week)
     df['year'] = year
     df['week'] = week
+    first_day = pd.Timestamp(FIRST_DAY_OF_YEAR[year])
+    df['date'] = first_day + pd.DateOffset(weeks=week-1)
     return df
 
 
@@ -44,7 +46,7 @@ def clean_data(df):
                'Petach Tiqwa', 'Ramla', 'Rehovot', 'Tel Aviv', 'Zefat', 'IDF', 'Total',
                'SumTotal']
     numeric = ordered[3:]
-    ret = df[ordered].copy()
+    ret = df.copy().reindex(columns=ordered, fill_value=0)
     for col in numeric:
         ret[col] = pd.to_numeric(ret[col], errors='coerce').fillna(0).astype(int)
     ret = ret.rename(columns=lambda x: x.replace(' ', '_').replace("'", ""))
@@ -55,9 +57,10 @@ def make_data(backup=False):
     filenames = glob('./data/weeklies/20*_*.xls*')
     dfs = []
     for fn in filenames:
+        # year, week = fn.split('.')[0].split['_']
         dfs.append(process_file(fn))
-        logger.debug(fn)
-    data = pd.concat(dfs)
+        logger.debug('Processed {}'.format(fn.split('/')[-1]))
+    data = pd.concat(dfs, axis=0).set_index('date')
     if backup:
         try:
             data.to_pickle(backup)

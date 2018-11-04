@@ -7,9 +7,7 @@ import requests
 
 from imoh import config
 
-prefix = datetime.now().strftime('./log/weeklies/%y%m%d_%H%M%S')
-logger = logging.getLogger(__file__)
-logger.addHandler(config.get_fh('{}.log'.format(prefix)))
+logger = config.make_logger(__file__)
 logging.getLogger('urllib3.connectionpool').setLevel(logging.WARNING)
 
 _weeks = range(1, 54)
@@ -74,8 +72,11 @@ def download_single_report(path, week, year):
             logger.exception(e)
 
 
-def download_reports(years=_years, weeks=_weeks, save_folder=None, force_download=False):
+def download_reports(years=None, weeks=_weeks, save_folder=None, force_download=False):
     '''Crawls through IMoH website and downloads all excel files in the given weeks and years'''
+    if years is None:
+        logger.warning('years not specified. Downloading all years since 2004')
+        years = _years
     save_folder = save_folder or os.path.join('.', 'data', 'weeklies')
     os.makedirs(save_folder, exist_ok=True)
     for year in years:
@@ -92,8 +93,12 @@ def download_reports(years=_years, weeks=_weeks, save_folder=None, force_downloa
 def refresh_reports(year=None, week=None, weeks_back=15, save_folder=None):
     t = datetime.utcnow()
     # if year == 'current':
-    year = year or t.year # TODO: Get this dynamically
-    year = range(year, year+1)
-    this_week = week or t.isocalendar()[1] # TODO: Get this dynamically
-    week_range = range(this_week - weeks_back, this_week + 1)
-    download_reports(year, week_range, save_folder, force_download=True)
+    year = year or t.year
+    year_range = range(year, year+1)
+    this_week = week or t.isocalendar()[1]
+    if week < weeks_back:
+        download_reports(range(year-1, year), range(week - weeks_back, 54), save_folder, force_download=True)
+        week_range = range(1, this_week + 1)
+    else:
+        week_range = range(this_week - weeks_back, this_week + 1)
+    download_reports(year_range, week_range, save_folder, force_download=True)

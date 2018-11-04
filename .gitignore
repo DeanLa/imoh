@@ -2,7 +2,7 @@
 .idea
 z.py
 z.ipynb
-
+tmp*
 # Ignore data filetypes
 *.xls
 *.xlsx
@@ -14,6 +14,7 @@ z.ipynb
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+.ipynb_checkpoints
 
 # C extensions
 *.so
