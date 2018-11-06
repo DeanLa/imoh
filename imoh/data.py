@@ -40,6 +40,7 @@ def process_file(file_path):
     return df
 
 
+
 def clean_data(df):
     ordered = ['year', 'week', 'Disease', 'Afula', 'Akko', 'Ashqelon', 'Beer Sheva',
                'Ha\'Sharon', 'Hadera', 'Haifa', 'Jerusalem', 'Kinneret', 'Nazareth',
@@ -53,8 +54,9 @@ def clean_data(df):
     return ret
 
 
-def make_data(backup=False):
-    filenames = glob('./data/weeklies/20*_*.xls*')
+def make_data(save_path=None, backup=False):
+    search_path = os.path.join('.','data','weeklies','2*_*.xls*')
+    filenames = glob(search_path)
     dfs = []
     for fn in filenames:
         # year, week = fn.split('.')[0].split['_']
@@ -67,4 +69,9 @@ def make_data(backup=False):
         except:
             logger.warning('cant create backup')
     data = clean_data(data)
+    save_path = save_path or os.path.join('.','data','data.pickle')
+    data.to_pickle(save_path)
     return data
+
+if __name__ == '__main__':
+    make_data()

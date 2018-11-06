@@ -1,8 +1,9 @@
 import logging
 import os
+import shutil
 import time
 from datetime import datetime
-
+from glob import glob
 import requests
 
 from imoh import config
@@ -94,11 +95,30 @@ def refresh_reports(year=None, week=None, weeks_back=15, save_folder=None):
     t = datetime.utcnow()
     # if year == 'current':
     year = year or t.year
-    year_range = range(year, year+1)
+    year_range = range(year, year + 1)
     this_week = week or t.isocalendar()[1]
-    if week < weeks_back:
-        download_reports(range(year-1, year), range(week - weeks_back, 54), save_folder, force_download=True)
+    if this_week < weeks_back:
+        download_reports(range(year - 1, year), range(week - weeks_back, 54), save_folder, force_download=True)
         week_range = range(1, this_week + 1)
     else:
         week_range = range(this_week - weeks_back, this_week + 1)
     download_reports(year_range, week_range, save_folder, force_download=True)
+
+
+def _delete_folder_contents(folder):
+    for root, dirs, files in os.walk(folder):
+        for f in files:
+            os.unlink(os.path.join(root, f))
+        for d in dirs:
+            shutil.rmtree(os.path.join(root, d))
+
+
+def delete_reports(save_folder=None, with_backup=True):
+    save_folder = save_folder or os.path.join('.', 'data')
+    backup_folder = os.path.join('.', 'data.backup')
+    if with_backup:
+        os.makedirs(backup_folder, exist_ok=True)
+        for fn in glob(os.path.join(save_folder,'**')):
+            os.rename(fn, fn.replace(save_folder,backup_folder))
+    else:
+        _delete_folder_contents(save_folder)

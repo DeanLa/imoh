@@ -1,5 +1,4 @@
 from setuptools import setup, find_packages
-import versioneer
 
 setup(
     name='imoh',
@@ -11,7 +10,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        'Click',
+        'click', 'pandas', 'numpy', 'xlrd', 'requests'
     ],
     entry_points='''
         [console_scripts]
