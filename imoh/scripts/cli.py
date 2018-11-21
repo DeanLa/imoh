@@ -1,4 +1,3 @@
-import os
 from datetime import datetime
 
 import click
@@ -10,14 +9,6 @@ def cli(ctx):
     pass
 
 
-# @cli.group(help='')
-# def db():
-#     pass
-#
-#
-# @cli.group(help='Everything that deals with downloading and wrangling files')
-# def data():
-#     '''Everything that deals with downloading and wrangling files'''
 
 current_year = datetime.now().year
 
@@ -40,11 +31,10 @@ def refresh(weeks_back):
     click.echo('Done')
 
 
-@click.option('--no-backup', 'no_backup', is_flag=True, show_default=True)
+@click.option('--backup', 'backup', is_flag=True, show_default=True)
 @cli.command(help='Delete all files in data folder')
-def purge(no_backup):
+def purge(backup):
     from ..io import delete_reports
-    backup = not no_backup
     delete_reports(with_backup=backup)
     click.echo('Deleted')
 
@@ -57,6 +47,6 @@ def arrange():
 @cli.command(help='purge, refresh, make')
 @click.pass_context
 def create(ctx):
-    ctx.invoke(purge, no_backup=True)
+    ctx.invoke(purge, backup=False)
     ctx.invoke(refresh, weeks_back=15)
     ctx.invoke(arrange)

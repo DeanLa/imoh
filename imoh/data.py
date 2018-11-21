@@ -58,7 +58,7 @@ def make_data(save_path=None, backup=False):
     search_path = os.path.join('.','data','weeklies','2*_*.xls*')
     filenames = glob(search_path)
     dfs = []
-    for fn in filenames:
+    for fn in sorted(filenames):
         # year, week = fn.split('.')[0].split['_']
         dfs.append(process_file(fn))
         logger.debug('Processed {}'.format(fn.split('/')[-1]))
