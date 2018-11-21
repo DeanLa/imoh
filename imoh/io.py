@@ -10,6 +10,7 @@ from imoh import config
 
 logger = config.make_logger(__file__)
 logging.getLogger('urllib3.connectionpool').setLevel(logging.WARNING)
+logging.getLogger('matplotlib').setLevel(logging.WARNING)
 
 _weeks = range(1, 54)
 _years = range(2004, 2019)
