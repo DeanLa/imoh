@@ -33,7 +33,8 @@ def _get_fileype_from_url(url):
 
 
 def _download_file(url, path):
-    req = requests.get(url)
+    s = requests.session()
+    req = s.get(url)
     filetype = _get_fileype_from_url(url)
     path = '{path}.{ft}'.format(path=path, ft=filetype)
     # Try different paths on remote, but always save on same path pattern locally
