@@ -23,7 +23,7 @@ FIRST_DAY_OF_YEAR = {
 
 # create formatter and add it to the handlers
 
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG,
+logging.basicConfig(stream=sys.stdout, level=logging.INFO,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 

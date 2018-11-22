@@ -48,7 +48,6 @@ def _download_file(url, path):
         logger.debug('{} returned with status code {}'.format(url, code))
         return False
 
-    return req
 
 
 def _save_excel(req, path):
