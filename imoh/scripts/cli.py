@@ -31,7 +31,7 @@ def refresh(weeks_back):
     click.echo('Done')
 
 
-@click.option('--backup', 'backup', is_flag=True, show_default=True)
+@click.option('--backup', 'backup', is_flag=False, show_default=True)
 @cli.command(help='Delete all files in data folder')
 def purge(backup):
     from ..io import delete_reports

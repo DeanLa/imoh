@@ -70,7 +70,7 @@ def download_single_report(path, week, year):
             if i == len(options) - 1:
                 logger.warning("{year}_{week:02d} FAILED\n".format(week=week, year=year))
         except Exception as e:
-            logger.exception(e)
+            raise e
 
 
 def download_reports(years=None, weeks=_weeks, save_folder=None, force_download=False):
