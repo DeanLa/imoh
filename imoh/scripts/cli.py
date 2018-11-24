@@ -33,6 +33,7 @@ def refresh(weeks_back):
 
 @cli.command(help='Delete all files in data folder')
 def purge():
+    click.echo('Deleting')
     from ..io import delete_reports
     delete_reports(with_backup=False)
     click.echo('Deleted')
