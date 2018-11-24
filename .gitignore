@@ -8,7 +8,8 @@ tmp*
 *.xlsx
 *.csv
 *.pickle
-debug.py
+debug*.py
+log*
 ###Python###
 
 # Byte-compiled / optimized / DLL files

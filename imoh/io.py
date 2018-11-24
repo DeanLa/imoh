@@ -6,11 +6,11 @@ from datetime import datetime
 from glob import glob
 import requests
 
-from imoh import config
+from imoh import config, challenge
 
 logger = config.make_logger(__file__)
 logging.getLogger('urllib3.connectionpool').setLevel(logging.WARNING)
-logging.getLogger('matplotlib').setLevel(logging.WARNING)
+logging.getLogger('matplotlib').setLevel(logging.CRITICAL)
 
 _weeks = range(1, 54)
 _years = range(2004, 2019)
@@ -33,13 +33,12 @@ def _get_fileype_from_url(url):
 
 
 def _download_file(url, path):
-    s = requests.session()
-    req = s.get(url)
-    filetype = _get_fileype_from_url(url)
-    path = '{path}.{ft}'.format(path=path, ft=filetype)
+    req = challenge.make_request(url)
     # Try different paths on remote, but always save on same path pattern locally
     code = req.status_code
     if code == 200:
+        filetype = _get_fileype_from_url(url)
+        path = '{path}.{ft}'.format(path=path, ft=filetype)
         _save_excel(req, path)
         return True
     elif code == 404:
