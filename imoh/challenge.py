@@ -4,7 +4,8 @@ from math import cos, pi, floor
 import requests
 
 logger = logging.getLogger(__name__)
-# URL = 'http://www.health.gov.il/PublicationsFiles/IWER01_2004.xls'
+
+logging.getLogger('chardet.universaldetector').setLevel(logging.ERROR)
 
 
 def parse_challenge(page):

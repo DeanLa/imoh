@@ -11,6 +11,7 @@ from imoh import config, challenge
 logger = config.make_logger(__file__)
 logging.getLogger('urllib3.connectionpool').setLevel(logging.WARNING)
 logging.getLogger('matplotlib').setLevel(logging.CRITICAL)
+logging.getLogger('chardet.universaldetector').setLevel(logging.ERROR)
 
 _weeks = range(1, 54)
 _years = range(2004, 2019)

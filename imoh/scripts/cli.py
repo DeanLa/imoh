@@ -23,7 +23,7 @@ def download(from_, to_, force):
     download_reports(years, force_download=force)
 
 
-@click.option('--weeks-back', 'weeks_back', default=15, help='How many weeks back from current to refresh')
+@click.option('--weeks-back', 'weeks_back', default=6, help='How many weeks back from current to refresh')
 @cli.command(help='Refresh reports (Force Download)')
 def refresh(weeks_back):
     from ..io import refresh_reports
@@ -47,6 +47,6 @@ def arrange():
 @cli.command(help='purge, refresh, make')
 @click.pass_context
 def create(ctx):
-    ctx.invoke(purge, backup=False)
-    ctx.invoke(refresh, weeks_back=15)
+    ctx.invoke(purge)
+    ctx.invoke(refresh, weeks_back=6)
     ctx.invoke(arrange)

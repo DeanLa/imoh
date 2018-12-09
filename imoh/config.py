@@ -23,10 +23,11 @@ FIRST_DAY_OF_YEAR = {
 
 # create formatter and add it to the handlers
 
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG,
+logging.basicConfig(stream=sys.stdout, level=logging.INFO,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 logging.getLogger('matplotlib').setLevel(logging.CRITICAL)
+logging.getLogger('chardet.universaldetector').setLevel(logging.ERROR)
 
 def make_logger(name, allow_new_dir=True):
     logs_dir = os.path.join('.', 'log', 'weeklies')
