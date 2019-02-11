@@ -19,6 +19,7 @@ FIRST_DAY_OF_YEAR = {
     2016: '2016-01-03',
     2017: '2017-01-01',
     2018: '2017-12-31',
+    2019: '2018-12-30'
 }
 
 # create formatter and add it to the handlers
