@@ -8,6 +8,10 @@ import logging
 logger = logging.getLogger(__file__)
 from .config import FIRST_DAY_OF_YEAR
 
+DB_COLS = ['year', 'week', 'Disease', 'Afula', 'Akko', 'Ashqelon', 'Beer Sheva',
+           'Ha\'Sharon', 'Hadera', 'Haifa', 'Jerusalem', 'Kinneret', 'Nazareth',
+           'Petach Tiqwa', 'Ramla', 'Rehovot', 'Tel Aviv', 'Zefat', 'IDF', 'Total',
+           'SumTotal']
 def _remove_bad_lines(df, week=0):
     ret = df.copy()
     removal = 'week no|{}|report|weekly|epidemiological|'.format(week)
@@ -33,6 +37,7 @@ def process_file(file_path):
     df.columns = names
     df = df.rename(columns={'Week No.': 'Disease'})
     df = _remove_bad_lines(df, week)
+    df = df.drop(columns = [col for col in df.columns if col not in DB_COLS])
     df['year'] = year
     df['week'] = week
     first_day = pd.Timestamp(FIRST_DAY_OF_YEAR[year])
@@ -42,10 +47,7 @@ def process_file(file_path):
 
 
 def clean_data(df):
-    ordered = ['year', 'week', 'Disease', 'Afula', 'Akko', 'Ashqelon', 'Beer Sheva',
-               'Ha\'Sharon', 'Hadera', 'Haifa', 'Jerusalem', 'Kinneret', 'Nazareth',
-               'Petach Tiqwa', 'Ramla', 'Rehovot', 'Tel Aviv', 'Zefat', 'IDF', 'Total',
-               'SumTotal']
+    ordered = DB_COLS
     numeric = ordered[3:]
     ret = df.copy().reindex(columns=ordered, fill_value=0)
     for col in numeric:
@@ -62,6 +64,7 @@ def make_data(save_path=None, backup=False):
         # year, week = fn.split('.')[0].split['_']
         dfs.append(process_file(fn))
         logger.debug('Processed {}'.format(fn.split('/')[-1]))
+    print (len(dfs))
     data = pd.concat(dfs, axis=0).set_index('date')
     if backup:
         try:
